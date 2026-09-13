@@ -1,0 +1,18 @@
+{
+  "name": "thinklab",
+  "private": true,
+  "version": "0.1.0",
+  "description": "THINKLAB — a verified competitive problem-solving platform. Play. Prove. Improve.",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev --workspace=apps/web",
+    "dev:api": "npm run dev --workspace=apps/api",
+    "test": "npm run test --workspaces --if-present"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

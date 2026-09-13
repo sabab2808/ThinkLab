@@ -1,0 +1,6 @@
+export { generateMaze, openNeighbors, canMove } from './maze/generator.js'
+export { bfs } from './maze/bfs.js'
+export { dfs } from './maze/dfs.js'
+export { dijkstra } from './maze/dijkstra.js'
+export { astar } from './maze/astar.js'
+export { manhattanDistance } from './maze/pathHelpers.js'
