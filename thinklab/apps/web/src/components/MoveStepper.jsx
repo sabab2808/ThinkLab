@@ -9,17 +9,17 @@ export default function MoveStepper({ moves }) {
 
   return (
     <div>
-      <div className="flex items-center justify-center gap-6 border border-hairline py-10">
+      <div className="flex items-center justify-center gap-3 border border-hairline py-6 sm:gap-6 sm:py-10">
         <button
           type="button"
           onClick={() => setStep((s) => Math.max(0, s - 1))}
           disabled={step === 0}
-          className="font-mono text-2xl text-text-muted hover:text-text disabled:opacity-30"
+          className="font-mono text-xl text-text-muted hover:text-text disabled:opacity-30 sm:text-2xl"
         >
           ‹
         </button>
         <div className="text-center">
-          <p className="font-display text-5xl font-semibold">{moves[step]}</p>
+          <p className="font-display text-4xl font-semibold sm:text-5xl">{moves[step]}</p>
           <p className="mt-2 font-mono text-xs text-text-muted">
             move {step + 1} / {moves.length}
           </p>
@@ -28,7 +28,7 @@ export default function MoveStepper({ moves }) {
           type="button"
           onClick={() => setStep((s) => Math.min(moves.length - 1, s + 1))}
           disabled={step === moves.length - 1}
-          className="font-mono text-2xl text-text-muted hover:text-text disabled:opacity-30"
+          className="font-mono text-xl text-text-muted hover:text-text disabled:opacity-30 sm:text-2xl"
         >
           ›
         </button>

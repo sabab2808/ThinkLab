@@ -29,7 +29,7 @@ export default function Dashboard() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <p className="font-mono text-xs text-verified">signed in</p>
+      <p className="font-mono text-xs text-verified">PLAYER RECORD</p>
       <h1 className="mt-2 font-display text-3xl font-semibold">@{user.username}</h1>
 
       {error && (
@@ -37,12 +37,12 @@ export default function Dashboard() {
       )}
 
       <div className="mt-10 border-t border-hairline pt-6">
-        <h2 className="font-display text-sm font-medium text-text-muted">Ratings</h2>
+        <h2 className="font-display text-sm font-medium text-text-muted">How sharp are you today?</h2>
 
         {!error && ratings && ratings.length === 0 && (
           <p className="mt-3 text-sm text-text-muted">
-            No verified sessions yet.{' '}
-            <Link to="/games" className="text-verified hover:underline">Play a game</Link> to start building a rating.
+            No verified runs yet.{' '}
+            <Link to="/games" className="text-verified hover:underline">Enter a challenge</Link> and give the board something to remember.
           </p>
         )}
 
@@ -60,10 +60,10 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-10 border-t border-hairline pt-6">
-        <h2 className="font-display text-sm font-medium text-text-muted">Achievements</h2>
+        <h2 className="font-display text-sm font-medium text-text-muted">Proof collected</h2>
 
         {!error && achievements && achievements.length === 0 && (
-          <p className="mt-3 text-sm text-text-muted">None earned yet — they unlock automatically as you play.</p>
+          <p className="mt-3 text-sm text-text-muted">Nothing stamped yet. Keep playing; the interesting marks come with the hard wins.</p>
         )}
 
         {achievements && achievements.length > 0 && (

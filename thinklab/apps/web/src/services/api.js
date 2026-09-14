@@ -1,4 +1,7 @@
-const API_BASE = '/api' // proxied to the API server in dev, see vite.config.js
+// In dev, '/api' is proxied to localhost:4000 (see vite.config.js). In a
+// real deployment, the frontend and API usually live on different
+// domains, so VITE_API_BASE_URL points straight at the deployed API.
+const API_BASE = import.meta.env.VITE_API_BASE_URL || '/api'
 
 class ApiError extends Error {
   constructor(message, status) {

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   createEmptyBoard,
@@ -46,6 +46,7 @@ export default function TicTacToe() {
   const [sessionId, setSessionId] = useState(null)
   const [sessionError, setSessionError] = useState(null)
   const [serverOutcome, setServerOutcome] = useState(null) // { verifiedStatus, proofId, outcome, ratingDelta, achievements }
+  const pendingEventWrites = useRef(Promise.resolve())
 
   const winner = checkWinner(board)
   const isRealSession = Boolean(sessionId) && !sessionError
@@ -84,8 +85,11 @@ export default function TicTacToe() {
   useEffect(() => {
     if (!finished || !isRealSession) return
     let cancelled = false
-    finishSessionRequest(sessionId, token)
-      .then(({ result, proof, outcome, ratingDelta, achievements }) => {
+    async function finishAfterEventsAreSaved() {
+      try {
+        await pendingEventWrites.current
+        if (cancelled) return
+        const { result, proof, outcome, ratingDelta, achievements } = await finishSessionRequest(sessionId, token)
         if (!cancelled) {
           setServerOutcome({
             verifiedStatus: result.verifiedStatus,
@@ -95,10 +99,12 @@ export default function TicTacToe() {
             achievements,
           })
         }
-      })
-      .catch((err) => {
+      } catch (err) {
         if (!cancelled) setSessionError(err.message)
-      })
+      }
+    }
+
+    finishAfterEventsAreSaved()
     return () => {
       cancelled = true
     }
@@ -113,8 +119,8 @@ export default function TicTacToe() {
     setBoard(nextBoard)
 
     if (isRealSession) {
-      submitEventRequest(sessionId, { sequenceNo, eventType: 'move', eventData: { index, player } }, token).catch(
-        (err) => setSessionError(err.message),
+      pendingEventWrites.current = pendingEventWrites.current.then(() =>
+        submitEventRequest(sessionId, { sequenceNo, eventType: 'move', eventData: { index, player } }, token),
       )
     }
 
@@ -137,6 +143,7 @@ export default function TicTacToe() {
     setSessionId(null)
     setSessionError(null)
     setServerOutcome(null)
+    pendingEventWrites.current = Promise.resolve()
   }
 
   function changeMode() {
@@ -158,7 +165,7 @@ export default function TicTacToe() {
       <main className="mx-auto max-w-xl px-4 py-10 sm:px-6 sm:py-16">
         <p className="font-mono text-xs text-text-muted">strategy</p>
         <h1 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Tic-Tac-Toe</h1>
-        <p className="mt-2 text-sm text-text-muted sm:text-base">Choose an opponent to start.</p>
+        <p className="mt-2 text-sm text-text-muted sm:text-base">Nine squares. No excuses. Choose who gets the first move.</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <button
@@ -167,15 +174,15 @@ export default function TicTacToe() {
             className="border border-hairline p-5 text-left hover:border-verified"
           >
             <p className="font-display text-lg font-medium">Local PvP</p>
-            <p className="mt-1 text-sm text-text-muted">Two players, one screen.</p>
+            <p className="mt-1 text-sm text-text-muted">Two minds. One board. Settle it face to face.</p>
           </button>
 
           <div className="border border-hairline p-5">
             <p className="font-display text-lg font-medium">vs AI</p>
             <p className="mt-1 text-sm text-text-muted">
-              {isAuthenticated ? 'Real Elo rating against a fixed-rating opponent.' : 'Sign in for a rated match.'}
+              {isAuthenticated ? 'A rated match against an opponent that never blinks.' : 'Join the lab for a match that counts.'}
             </p>
-            <div className="mt-4 flex gap-2">
+            <div className="mt-4 flex flex-wrap gap-2">
               {DIFFICULTIES.map((d) => (
                 <button
                   key={d}

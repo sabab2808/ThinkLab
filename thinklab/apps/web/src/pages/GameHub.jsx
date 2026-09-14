@@ -9,8 +9,9 @@ const games = [
 export default function GameHub() {
   return (
     <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <h1 className="font-display text-3xl font-semibold">Game hub</h1>
-      <p className="mt-2 text-text-muted">Pick a challenge. Verified sessions count toward your rating.</p>
+      <p className="font-mono text-xs text-verified">THE ARENA</p>
+      <h1 className="mt-2 font-display text-3xl font-semibold">Pick a fight for your focus.</h1>
+      <p className="mt-2 max-w-xl text-text-muted">Every challenge tests a different kind of thinking. Finish strong and the result follows you.</p>
 
       <div className="mt-10 grid gap-6 sm:grid-cols-2 md:grid-cols-3">
         {games.map((g) => (
@@ -25,7 +26,7 @@ export default function GameHub() {
             <p className="font-mono text-xs text-text-muted">{g.category}</p>
             <h2 className="mt-2 font-display text-lg font-medium">{g.name}</h2>
             <p className="mt-3 font-mono text-xs text-verified">
-              {g.ready ? 'PLAY' : 'COMING SOON'}
+              {g.ready ? 'ENTER CHALLENGE' : 'IN THE WORKSHOP'}
             </p>
           </Link>
         ))}

@@ -1,11 +1,11 @@
 import ProofTicker from '../components/ProofTicker.jsx'
 
 const pipeline = [
-  { step: '01', label: 'Challenge', detail: 'Pick a game or puzzle at your level.' },
-  { step: '02', label: 'Event log', detail: 'Every move is recorded with a sequence number.' },
-  { step: '03', label: 'Server validation', detail: 'The backend replays your session and checks it.' },
-  { step: '04', label: 'Rating', detail: 'A category rating updates from the verified result.' },
-  { step: '05', label: 'Proof', detail: 'Qualifying runs get a public, shareable Proof ID.' },
+  { step: '01', label: 'Enter the arena', detail: 'Choose a challenge that makes your brain lean forward.' },
+  { step: '02', label: 'Leave a trail', detail: 'Every decision is captured, move by move.' },
+  { step: '03', label: 'Put it to the test', detail: 'The server replays your run to separate skill from luck.' },
+  { step: '04', label: 'Climb', detail: 'A verified result changes your rating in the discipline you played.' },
+  { step: '05', label: 'Make it undeniable', detail: 'Earn a public Proof ID for the runs worth showing off.' },
 ]
 
 const modules = [
@@ -19,30 +19,30 @@ export default function Landing() {
     <main className="mx-auto max-w-6xl px-4 sm:px-6">
       <section className="grid gap-10 py-16 sm:py-24 md:grid-cols-[3fr_2fr] md:items-end md:gap-12">
         <div>
-          <p className="font-mono text-xs text-verified">play · prove · improve</p>
+          <p className="font-mono text-xs text-verified">THINK CLEARLY · PLAY BOLDLY</p>
           <h1 className="mt-4 font-display text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
-            Your skill,
+            Outsmart the
             <br />
-            demonstrated —
+            board.
             <br />
-            not claimed.
+            Leave proof.
           </h1>
           <p className="mt-6 max-w-md text-text-muted">
-            THINKLAB records how you actually play, validates the result on the
-            server, and turns it into a rating and a proof you can share.
+            A competitive playground for people who like their puzzles difficult
+            and their victories defensible. Play, get tested, and build a record
+            that speaks for itself.
           </p>
         </div>
         <div className="border-l border-hairline pl-6 text-sm text-text-muted">
-          No self-reported scores. No client-side leaderboards. Every
-          competitive result is reconstructed and scored server-side before
-          it counts.
+          No inflated scores. No mystery rankings. Your run is reconstructed,
+          checked, and counted only when the evidence holds up.
         </div>
       </section>
 
       <ProofTicker />
 
       <section className="border-t border-hairline py-12 sm:py-16">
-        <h2 className="font-display text-sm font-medium text-text-muted">How a result becomes proof</h2>
+        <h2 className="font-display text-sm font-medium text-text-muted">From first move to hard evidence</h2>
         <ol className="mt-8 grid gap-8 sm:grid-cols-2 md:grid-cols-5">
           {pipeline.map((p) => (
             <li key={p.step} className="border-t border-hairline pt-4">
@@ -55,7 +55,7 @@ export default function Landing() {
       </section>
 
       <section className="border-t border-hairline py-12 sm:py-16">
-        <h2 className="font-display text-sm font-medium text-text-muted">Modules</h2>
+        <h2 className="font-display text-sm font-medium text-text-muted">Choose your proving ground</h2>
         <div className="mt-8 divide-y divide-hairline border-y border-hairline">
           {modules.map((m) => (
             <div key={m.name} className="flex items-center justify-between py-4">

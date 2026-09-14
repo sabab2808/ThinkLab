@@ -141,9 +141,8 @@ export default function MazeLab() {
       <p className="font-mono text-xs text-text-muted">pathfinding</p>
       <h1 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Maze Lab</h1>
       <p className="mt-2 max-w-2xl text-sm text-text-muted sm:text-base">
-        Watch four pathfinding algorithms solve the same maze, then solve
-        one yourself and see how your path compares to the shortest
-        possible one.
+        Watch four algorithms race through the same maze. Then take the wheel
+        and see whether your instincts can beat the shortest route.
       </p>
       <Link to="/games/maze/scan" className="mt-3 inline-block text-sm text-verified hover:underline">
         Or scan a physical maze with your camera →

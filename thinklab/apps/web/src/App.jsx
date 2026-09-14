@@ -15,7 +15,7 @@ import Register from './pages/Register.jsx'
 
 function App() {
   return (
-    <div className="min-h-screen bg-ink text-text">
+    <div className="flex min-h-screen flex-col bg-ink text-text">
       <Nav />
       <Routes>
         <Route path="/" element={<Landing />} />
@@ -37,6 +37,11 @@ function App() {
           }
         />
       </Routes>
+      <footer className="mt-auto border-t border-hairline px-4 py-5 sm:px-6">
+        <p className="mx-auto max-w-6xl text-center font-mono text-[11px] text-text-muted">
+          © 2026 CRYPT00 · THINKLAB
+        </p>
+      </footer>
     </div>
   )
 }

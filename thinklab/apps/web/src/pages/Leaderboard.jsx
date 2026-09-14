@@ -36,7 +36,7 @@ export default function Leaderboard() {
       <p className="font-mono text-xs text-text-muted">rankings</p>
       <h1 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Leaderboard</h1>
 
-      <div className="mt-6 flex gap-2">
+      <div className="mt-6 flex flex-wrap gap-2">
         {CATEGORIES.map((c) => (
           <button
             key={c.slug}

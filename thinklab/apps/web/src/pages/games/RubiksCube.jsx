@@ -72,7 +72,7 @@ export default function RubiksCube() {
 
       {stage === STAGE.DIMENSION && (
         <>
-          <p className="mt-2 text-sm text-text-muted sm:text-base">Choose a cube size.</p>
+          <p className="mt-2 text-sm text-text-muted sm:text-base">Hand the scramble to the machine. See how far your cube can be brought back from chaos.</p>
           <div className="mt-6 grid grid-cols-3 gap-4">
             {DIMENSIONS.map((d) => (
               <button
@@ -81,11 +81,11 @@ export default function RubiksCube() {
                 disabled={!d.ready}
                 onClick={startCapture}
                 className={
-                  'border p-6 text-center ' +
+                  'border p-3 text-center sm:p-6 ' +
                   (d.ready ? 'border-hairline hover:border-verified' : 'border-hairline opacity-40 cursor-not-allowed')
                 }
               >
-                <p className="font-display text-2xl">{d.label}</p>
+                <p className="font-display text-lg sm:text-2xl">{d.label}</p>
                 <p className="mt-2 font-mono text-[10px] text-text-muted">
                   {d.ready ? 'READY' : 'COMING SOON'}
                 </p>
@@ -142,7 +142,7 @@ export default function RubiksCube() {
             </div>
           )}
 
-          <div className="mt-6 flex gap-3">
+          <div className="mt-6 flex flex-wrap gap-3">
             <button
               type="button"
               onClick={runSolve}

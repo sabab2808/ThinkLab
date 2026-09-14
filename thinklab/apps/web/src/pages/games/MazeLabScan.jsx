@@ -119,7 +119,7 @@ export default function MazeLabScan() {
 
           {solvable && (
             <div className="mt-8 border-t border-hairline pt-6">
-              <div className="flex gap-2">
+              <div className="flex flex-wrap gap-2">
                 {Object.keys(ALGORITHMS).map((name) => (
                   <button
                     key={name}
