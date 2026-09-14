@@ -10,7 +10,7 @@ import {
 } from '@thinklab/game-engine'
 import Board from '../../components/Board.jsx'
 import ReplayScrubber from '../../components/ReplayScrubber.jsx'
-import VerificationStamp from '../../components/VerificationStamp.jsx'
+import ResultSummary from '../../components/ResultSummary.jsx'
 import AchievementBadge from '../../components/AchievementBadge.jsx'
 import { useVerificationSequence } from '../../hooks/useVerification.js'
 import { generateProofId } from '../../utils/proofId.js'
@@ -253,20 +253,18 @@ export default function TicTacToe() {
 
       {finished && (
         <div className="mt-6 sm:mt-8">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <p className="font-mono text-sm text-text-muted">{status}</p>
-            <VerificationStamp
-              status={displayStatus}
-              proofId={displayStatus === 'verified' ? displayProofId : undefined}
-            />
-          </div>
-
-          {isRealSession && serverOutcome?.ratingDelta != null && (
-            <p className="mt-2 font-mono text-xs text-verified">
-              rating {serverOutcome.ratingDelta >= 0 ? '+' : ''}
-              {serverOutcome.ratingDelta}
-            </p>
-          )}
+          <ResultSummary
+            title={status}
+            detail="Your moves are saved below so you can replay the moment the game turned."
+            status={displayStatus}
+            proofId={displayProofId}
+            ratingDelta={isRealSession ? serverOutcome?.ratingDelta : undefined}
+          >
+            <div className="border border-sky/40 bg-ink/20 px-3 py-2">
+              <p className="font-mono text-[10px] uppercase text-text-muted">MOVES PLAYED</p>
+              <p className="mt-1 font-display text-xl text-sky">{events.length}</p>
+            </div>
+          </ResultSummary>
 
           <div className="mt-6">
             <Board cells={boardAtStep(events, verifyStep)} />

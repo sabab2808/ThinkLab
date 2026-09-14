@@ -4,7 +4,7 @@ import { generateMaze, bfs, canMove } from '@thinklab/algorithms'
 import MazeGrid from '../../components/MazeGrid.jsx'
 import AlgorithmRace from '../../components/AlgorithmRace.jsx'
 import ReplayScrubber from '../../components/ReplayScrubber.jsx'
-import VerificationStamp from '../../components/VerificationStamp.jsx'
+import ResultSummary from '../../components/ResultSummary.jsx'
 import AchievementBadge from '../../components/AchievementBadge.jsx'
 import { useVerificationSequence } from '../../hooks/useVerification.js'
 import { generateProofId } from '../../utils/proofId.js'
@@ -183,28 +183,20 @@ export default function MazeLab() {
           </div>
         ) : (
           <div className="mt-6">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="font-mono text-sm text-text-muted">
-                Solved in {actualMoves} moves (shortest possible: {shortestMoves})
-              </p>
-              <VerificationStamp
-                status={displayStatus}
-                proofId={displayStatus === 'verified' ? displayProofId : undefined}
-              />
-            </div>
-
-            {displayStatus === 'verified' && efficiency != null && (
-              <p className="mt-2 font-mono text-xs text-verified">
-                efficiency {Math.round(efficiency * 100)}%
-              </p>
-            )}
-
-            {isRealSession && serverResult?.ratingDelta != null && (
-              <p className="mt-1 font-mono text-xs text-verified">
-                rating {serverResult.ratingDelta >= 0 ? '+' : ''}
-                {serverResult.ratingDelta}
-              </p>
-            )}
+            <ResultSummary
+              title="Maze solved!"
+              detail={`You found the finish in ${actualMoves} moves. The shortest route was ${shortestMoves}.`}
+              status={displayStatus}
+              proofId={displayProofId}
+              ratingDelta={isRealSession ? serverResult?.ratingDelta : undefined}
+            >
+              {displayStatus === 'verified' && efficiency != null && (
+                <div className="border border-sky/40 bg-ink/20 px-3 py-2">
+                  <p className="font-mono text-[10px] uppercase text-text-muted">EFFICIENCY</p>
+                  <p className="mt-1 font-display text-xl text-sky">{Math.round(efficiency * 100)}%</p>
+                </div>
+              )}
+            </ResultSummary>
 
             {serverResult?.achievements?.length > 0 && (
               <div className="mt-6 border-t border-hairline pt-4">
