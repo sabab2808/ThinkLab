@@ -12,6 +12,7 @@ const modules = [
   { name: 'Tic-Tac-Toe', tag: 'Minimax', status: 'live' },
   { name: 'Maze Lab', tag: 'BFS · DFS · A*', status: 'live' },
   { name: "Rubik's Cube", tag: '3D solver', status: 'building' },
+  { name: 'Word Forge', tag: 'letter logic', status: 'live' },
 ]
 
 export default function Landing() {

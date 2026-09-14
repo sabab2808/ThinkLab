@@ -4,6 +4,7 @@ const games = [
   { name: 'Tic-Tac-Toe', path: '/games/tic-tac-toe', category: 'Strategy', ready: true },
   { name: 'Maze Lab', path: '/games/maze', category: 'Pathfinding', ready: true },
   { name: "Rubik's Cube", path: '/games/rubik', category: 'Optimization', ready: true },
+  { name: 'Word Forge', path: '/games/word-sudoku', category: 'Wordplay', ready: true },
 ]
 
 export default function GameHub() {
