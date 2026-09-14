@@ -25,8 +25,11 @@ const DIFFICULTIES = ['easy', 'medium', 'impossible']
 
 function boardAtStep(events, step) {
   let board = createEmptyBoard()
-  for (let i = 0; i < step; i++) {
-    board = applyMove(board, events[i].index, events[i].player)
+  const safeStep = Math.min(Math.max(step, 0), events.length)
+  for (let i = 0; i < safeStep; i++) {
+    const event = events[i]
+    if (!event || board[event.index] !== null) return board
+    board = applyMove(board, event.index, event.player)
   }
   return board
 }
