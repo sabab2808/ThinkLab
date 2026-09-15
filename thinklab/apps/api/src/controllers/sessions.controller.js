@@ -5,7 +5,7 @@ import { Result } from '../models/Result.js'
 import { Proof } from '../models/Proof.js'
 import { verifySession } from '../services/verification.service.js'
 import { issueProof } from '../services/proof.service.js'
-import { createMazeChallenge } from '../services/challenge.service.js'
+import { createMazeChallenge, createWordSearchChallenge } from '../services/challenge.service.js'
 import { applyRatingUpdate, applyEloRatingUpdate } from '../services/rating.service.js'
 import { ratingDelta } from '../services/ratingDelta.js'
 import { evaluateAchievements } from '../services/achievements/index.js'
@@ -18,16 +18,20 @@ import { AppError } from '../utils/AppError.js'
 // verified JWT, never from the request body.
 export const createSession = asyncHandler(async (req, res) => {
   validateCreateSession(req.body)
-  const { gameSlug, opponentType = 'human', aiDifficulty } = req.body
+  const { gameSlug, opponentType = 'human', aiDifficulty, level } = req.body
 
   const game = await Game.findOne({ slug: gameSlug, active: true })
   if (!game) throw new AppError(`Unknown or inactive game "${gameSlug}"`, 404)
 
-  // Maze sessions need a fresh, seeded challenge generated server-side —
-  // the client can't be trusted to pick its own maze seed.
+  // Maze and Word Search sessions need a fresh, seeded challenge
+  // generated server-side — the client can't be trusted to pick its own
+  // seed (for Word Search, that would mean picking its own grid).
   let challenge = null
   if (game.slug === 'maze') {
     challenge = await createMazeChallenge(game._id)
+  } else if (game.slug === 'word-search') {
+    const requestedLevel = Number.isInteger(level) && level > 0 ? level : 1
+    challenge = await createWordSearchChallenge(game._id, requestedLevel)
   }
 
   const isAiMatch = game.slug === 'tic-tac-toe' && opponentType === 'ai'
@@ -120,6 +124,7 @@ export const finishSession = asyncHandler(async (req, res) => {
       category: session.game.category,
       result,
       rating,
+      outcome,
     })
   }
 
@@ -129,6 +134,9 @@ export const finishSession = asyncHandler(async (req, res) => {
     rating,
     ratingDelta: ratingDeltaValue,
     outcome: outcome?.outcome ?? null,
+    passed: outcome?.passed ?? null,
+    level: outcome?.level ?? null,
+    wordsFound: outcome?.wordsFound ?? null,
     achievements,
   })
 })

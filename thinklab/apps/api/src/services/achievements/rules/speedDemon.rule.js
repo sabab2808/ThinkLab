@@ -2,6 +2,7 @@
 const THRESHOLD_MS = {
   'tic-tac-toe': 8000,
   maze: 15000,
+  'word-search': 20000,
 }
 
 export function speedDemonRule(gameSlug, result) {

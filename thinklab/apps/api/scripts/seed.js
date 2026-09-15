@@ -5,6 +5,7 @@ import { logger } from '../src/utils/logger.js'
 const games = [
   { slug: 'tic-tac-toe', name: 'Tic-Tac-Toe', category: 'strategy' },
   { slug: 'maze', name: 'Maze Lab', category: 'pathfinding' },
+  { slug: 'word-search', name: 'Word Search', category: 'vocabulary' },
 ]
 
 async function seed() {

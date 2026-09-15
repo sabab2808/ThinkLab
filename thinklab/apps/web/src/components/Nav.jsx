@@ -17,9 +17,9 @@ export default function Nav() {
           THINKLAB
         </Link>
         <nav className="flex items-center gap-3 text-xs text-text-muted sm:gap-8 sm:text-sm">
-          <Link to="/games" className="hover:text-text">Enter arena</Link>
+          <Link to="/games" className="hover:text-text">Games</Link>
           <Link to="/leaderboard" className="hidden hover:text-text sm:inline">Leaderboard</Link>
-          <Link to="/dashboard" className="hover:text-text">My record</Link>
+          <Link to="/dashboard" className="hover:text-text">Dashboard</Link>
 
           {isAuthenticated ? (
             <div className="flex items-center gap-3">
@@ -29,7 +29,7 @@ export default function Nav() {
                 onClick={handleLogout}
                 className="rounded border border-hairline px-2.5 py-1 text-text hover:border-danger hover:text-danger transition-colors sm:px-3 sm:py-1.5"
               >
-                Leave arena
+                Sign out
               </button>
             </div>
           ) : (
@@ -37,7 +37,7 @@ export default function Nav() {
               to="/login"
               className="rounded border border-hairline px-2.5 py-1 text-text hover:border-verified hover:text-verified transition-colors sm:px-3 sm:py-1.5"
             >
-              Join the lab
+              Sign in
             </Link>
           )}
         </nav>

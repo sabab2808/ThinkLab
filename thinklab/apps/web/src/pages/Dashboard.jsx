@@ -29,7 +29,7 @@ export default function Dashboard() {
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <p className="font-mono text-xs text-verified">PLAYER RECORD</p>
+      <p className="font-mono text-xs text-verified">signed in</p>
       <h1 className="mt-2 font-display text-3xl font-semibold">@{user.username}</h1>
 
       {error && (
@@ -37,12 +37,12 @@ export default function Dashboard() {
       )}
 
       <div className="mt-10 border-t border-hairline pt-6">
-        <h2 className="font-display text-sm font-medium text-text-muted">How sharp are you today?</h2>
+        <h2 className="font-display text-sm font-medium text-text-muted">Ratings</h2>
 
         {!error && ratings && ratings.length === 0 && (
           <p className="mt-3 text-sm text-text-muted">
-            No verified runs yet.{' '}
-            <Link to="/games" className="text-verified hover:underline">Enter a challenge</Link> and give the board something to remember.
+            No verified sessions yet.{' '}
+            <Link to="/games" className="text-verified hover:underline">Play a game</Link> to start building a rating.
           </p>
         )}
 
@@ -51,7 +51,9 @@ export default function Dashboard() {
             {ratings.map((r) => (
               <div key={r.category} className="flex items-center justify-between py-3">
                 <span className="capitalize text-text-muted">{r.category}</span>
-                <span className="text-verified">{Math.round(r.rating)}</span>
+                <span style={{ color: `var(--color-${r.category}, var(--color-verified))` }}>
+                  {Math.round(r.rating)}
+                </span>
                 <span className="text-text-muted">{r.gamesPlayed} played</span>
               </div>
             ))}
@@ -60,10 +62,10 @@ export default function Dashboard() {
       </div>
 
       <div className="mt-10 border-t border-hairline pt-6">
-        <h2 className="font-display text-sm font-medium text-text-muted">Proof collected</h2>
+        <h2 className="font-display text-sm font-medium text-text-muted">Achievements</h2>
 
         {!error && achievements && achievements.length === 0 && (
-          <p className="mt-3 text-sm text-text-muted">Nothing stamped yet. Keep playing; the interesting marks come with the hard wins.</p>
+          <p className="mt-3 text-sm text-text-muted">None earned yet — they unlock automatically as you play.</p>
         )}
 
         {achievements && achievements.length > 0 && (

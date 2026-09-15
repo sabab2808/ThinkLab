@@ -16,5 +16,15 @@ export function ratingDelta(gameSlug, result) {
     return Math.max(1, Math.round(efficiency * 25))
   }
 
+  if (gameSlug === 'word-search') {
+    // Proportional to the round's raw score, capped so a single very
+    // high-level round can't swing the rating too far in one go. Higher
+    // levels naturally score higher (longer words are worth more) AND
+    // have higher cutoffs to reach, so this scales reasonably with
+    // difficulty even without the delta formula knowing the level
+    // directly.
+    return Math.min(20, Math.max(1, Math.round(result.score / 3)))
+  }
+
   return 0
 }

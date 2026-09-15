@@ -29,10 +29,9 @@ export default function Login() {
 
   return (
     <main className="mx-auto max-w-sm px-4 py-16 sm:px-6">
-      <p className="font-mono text-xs text-verified">RETURN TO THE LAB</p>
-      <h1 className="mt-2 font-display text-2xl font-semibold">Pick up your record.</h1>
+      <h1 className="font-display text-2xl font-semibold">Sign in</h1>
       <p className="mt-2 text-sm text-text-muted">
-        New to the arena? <Link to="/register" className="text-verified hover:underline">Create your player record</Link>
+        No account? <Link to="/register" className="text-verified hover:underline">Register</Link>
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
@@ -65,7 +64,7 @@ export default function Login() {
           disabled={submitting}
           className="mt-2 border border-hairline px-4 py-2 text-sm hover:border-verified disabled:opacity-50"
         >
-          {submitting ? 'Opening your record…' : 'Enter the lab'}
+          {submitting ? 'Signing in…' : 'Sign in'}
         </button>
       </form>
     </main>

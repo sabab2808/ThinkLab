@@ -37,4 +37,12 @@ export const ACHIEVEMENT_METADATA = {
     label: 'Consistency',
     description: 'Completed 10 verified sessions across all categories.',
   },
+  wordsmith: {
+    label: 'Wordsmith',
+    description: 'Completed 5 verified Word Search rounds.',
+  },
+  vocabulary_virtuoso: {
+    label: 'Vocabulary Virtuoso',
+    description: 'Reached level 10 in Word Search.',
+  },
 }

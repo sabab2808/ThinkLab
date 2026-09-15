@@ -1,49 +1,33 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Space Grotesk", "Trebuchet MS", sans-serif;
-  --font-sans: "Nunito Sans", "Trebuchet MS", sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-sans: "Inter", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --color-ink: #10182b;
-  --color-surface: #172441;
-  --color-surface-raised: #203158;
-  --color-hairline: #30446f;
-  --color-text: #f7f7ff;
-  --color-text-muted: #afbbd7;
-  --color-verified: #53e0bd;
-  --color-live: #ffd166;
-  --color-danger: #ff7b83;
-  --color-coral: #ff8066;
-  --color-sky: #73c9ff;
-  --color-lilac: #c6a7ff;
+  --color-ink: #0b0e14;
+  --color-surface: #10141c;
+  --color-surface-raised: #161b26;
+  --color-hairline: #232a38;
+  --color-text: #dde3ea;
+  --color-text-muted: #7a8699;
+  --color-verified: #2dd4bf;
+  --color-live: #f2a93b;
+  --color-danger: #e5534b;
+
+  /* One signature color per game category — used consistently for that
+     category's icon, GameHub card accent, and rating display, so color
+     carries real meaning (which category) rather than being decorative. */
+  --color-strategy: #2dd4bf;
+  --color-pathfinding: #f2a93b;
+  --color-optimization: #a78bfa;
+  --color-vocabulary: #fb7185;
 }
 
 body {
   background-color: var(--color-ink);
-  background-image: radial-gradient(circle at 8% 5%, rgba(115, 201, 255, 0.13), transparent 27rem), radial-gradient(circle at 92% 18%, rgba(255, 128, 102, 0.1), transparent 24rem);
   color: var(--color-text);
   font-family: var(--font-sans);
-}
-
-button, a { transition: transform 160ms ease, border-color 160ms ease, background-color 160ms ease, color 160ms ease; }
-button:hover:not(:disabled), a:hover { transform: translateY(-1px); }
-
-.game-card-art {
-  background-position: center;
-  background-size: cover;
-  min-height: 13rem;
-}
-
-.game-card-art::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(16, 24, 43, 0.08), rgba(16, 24, 43, 0.86));
-}
-
-.result-panel {
-  background: linear-gradient(135deg, rgba(83, 224, 189, 0.13), rgba(115, 201, 255, 0.06) 48%, rgba(198, 167, 255, 0.1));
 }
 
 @keyframes ticker-scroll {

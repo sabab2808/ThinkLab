@@ -12,6 +12,11 @@ export function validateCreateSession(body) {
   if (body.opponentType === 'ai' && !VALID_AI_DIFFICULTIES.includes(body.aiDifficulty)) {
     throw new AppError(`aiDifficulty must be one of: ${VALID_AI_DIFFICULTIES.join(', ')}`, 400)
   }
+  if (body.gameSlug === 'word-search' && body.level !== undefined) {
+    if (!Number.isInteger(body.level) || body.level < 1) {
+      throw new AppError('level must be a positive integer', 400)
+    }
+  }
 }
 
 export function validateEvent(body) {

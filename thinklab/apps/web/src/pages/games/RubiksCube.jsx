@@ -72,7 +72,7 @@ export default function RubiksCube() {
 
       {stage === STAGE.DIMENSION && (
         <>
-          <p className="mt-2 text-sm text-text-muted sm:text-base">Hand the scramble to the machine. See how far your cube can be brought back from chaos.</p>
+          <p className="mt-2 text-sm text-text-muted sm:text-base">Choose a cube size.</p>
           <div className="mt-6 grid grid-cols-3 gap-4">
             {DIMENSIONS.map((d) => (
               <button

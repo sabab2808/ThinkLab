@@ -28,10 +28,9 @@ export default function Register() {
 
   return (
     <main className="mx-auto max-w-sm px-4 py-16 sm:px-6">
-      <p className="font-mono text-xs text-verified">FIRST RUN</p>
-      <h1 className="mt-2 font-display text-2xl font-semibold">Put your name on the board.</h1>
+      <h1 className="font-display text-2xl font-semibold">Create an account</h1>
       <p className="mt-2 text-sm text-text-muted">
-        Already have a record? <Link to="/login" className="text-verified hover:underline">Return to the lab</Link>
+        Already registered? <Link to="/login" className="text-verified hover:underline">Sign in</Link>
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">
@@ -79,7 +78,7 @@ export default function Register() {
           disabled={submitting}
           className="mt-2 border border-hairline px-4 py-2 text-sm hover:border-verified disabled:opacity-50"
         >
-          {submitting ? 'Preparing your record…' : 'Claim your place'}
+          {submitting ? 'Creating account…' : 'Create account'}
         </button>
       </form>
     </main>

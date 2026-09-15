@@ -2,8 +2,9 @@ import { useEffect, useState } from 'react'
 import { getLeaderboard } from '../services/ratingService.js'
 
 const CATEGORIES = [
-  { slug: 'strategy', label: 'Strategy (Tic-Tac-Toe)' },
-  { slug: 'pathfinding', label: 'Pathfinding (Maze Lab)' },
+  { slug: 'strategy', label: 'Strategy (Tic-Tac-Toe)', color: 'var(--color-strategy)' },
+  { slug: 'pathfinding', label: 'Pathfinding (Maze Lab)', color: 'var(--color-pathfinding)' },
+  { slug: 'vocabulary', label: 'Vocabulary (Word Search)', color: 'var(--color-vocabulary)' },
 ]
 
 export default function Leaderboard() {
@@ -42,11 +43,10 @@ export default function Leaderboard() {
             key={c.slug}
             type="button"
             onClick={() => setCategory(c.slug)}
+            style={category === c.slug ? { borderColor: c.color, color: c.color } : undefined}
             className={
               'border px-3 py-1.5 font-mono text-xs ' +
-              (category === c.slug
-                ? 'border-verified text-verified'
-                : 'border-hairline text-text-muted hover:text-text')
+              (category === c.slug ? '' : 'border-hairline text-text-muted hover:text-text')
             }
           >
             {c.label}

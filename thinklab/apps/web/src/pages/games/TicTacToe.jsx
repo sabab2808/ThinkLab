@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   createEmptyBoard,
@@ -10,7 +10,7 @@ import {
 } from '@thinklab/game-engine'
 import Board from '../../components/Board.jsx'
 import ReplayScrubber from '../../components/ReplayScrubber.jsx'
-import ResultSummary from '../../components/ResultSummary.jsx'
+import VerificationStamp from '../../components/VerificationStamp.jsx'
 import AchievementBadge from '../../components/AchievementBadge.jsx'
 import { useVerificationSequence } from '../../hooks/useVerification.js'
 import { generateProofId } from '../../utils/proofId.js'
@@ -25,11 +25,8 @@ const DIFFICULTIES = ['easy', 'medium', 'impossible']
 
 function boardAtStep(events, step) {
   let board = createEmptyBoard()
-  const safeStep = Math.min(Math.max(step, 0), events.length)
-  for (let i = 0; i < safeStep; i++) {
-    const event = events[i]
-    if (!event || board[event.index] !== null) return board
-    board = applyMove(board, event.index, event.player)
+  for (let i = 0; i < step; i++) {
+    board = applyMove(board, events[i].index, events[i].player)
   }
   return board
 }
@@ -49,7 +46,6 @@ export default function TicTacToe() {
   const [sessionId, setSessionId] = useState(null)
   const [sessionError, setSessionError] = useState(null)
   const [serverOutcome, setServerOutcome] = useState(null) // { verifiedStatus, proofId, outcome, ratingDelta, achievements }
-  const pendingEventWrites = useRef(Promise.resolve())
 
   const winner = checkWinner(board)
   const isRealSession = Boolean(sessionId) && !sessionError
@@ -88,11 +84,8 @@ export default function TicTacToe() {
   useEffect(() => {
     if (!finished || !isRealSession) return
     let cancelled = false
-    async function finishAfterEventsAreSaved() {
-      try {
-        await pendingEventWrites.current
-        if (cancelled) return
-        const { result, proof, outcome, ratingDelta, achievements } = await finishSessionRequest(sessionId, token)
+    finishSessionRequest(sessionId, token)
+      .then(({ result, proof, outcome, ratingDelta, achievements }) => {
         if (!cancelled) {
           setServerOutcome({
             verifiedStatus: result.verifiedStatus,
@@ -102,12 +95,10 @@ export default function TicTacToe() {
             achievements,
           })
         }
-      } catch (err) {
+      })
+      .catch((err) => {
         if (!cancelled) setSessionError(err.message)
-      }
-    }
-
-    finishAfterEventsAreSaved()
+      })
     return () => {
       cancelled = true
     }
@@ -122,8 +113,8 @@ export default function TicTacToe() {
     setBoard(nextBoard)
 
     if (isRealSession) {
-      pendingEventWrites.current = pendingEventWrites.current.then(() =>
-        submitEventRequest(sessionId, { sequenceNo, eventType: 'move', eventData: { index, player } }, token),
+      submitEventRequest(sessionId, { sequenceNo, eventType: 'move', eventData: { index, player } }, token).catch(
+        (err) => setSessionError(err.message),
       )
     }
 
@@ -146,7 +137,6 @@ export default function TicTacToe() {
     setSessionId(null)
     setSessionError(null)
     setServerOutcome(null)
-    pendingEventWrites.current = Promise.resolve()
   }
 
   function changeMode() {
@@ -168,7 +158,7 @@ export default function TicTacToe() {
       <main className="mx-auto max-w-xl px-4 py-10 sm:px-6 sm:py-16">
         <p className="font-mono text-xs text-text-muted">strategy</p>
         <h1 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Tic-Tac-Toe</h1>
-        <p className="mt-2 text-sm text-text-muted sm:text-base">Nine squares. No excuses. Choose who gets the first move.</p>
+        <p className="mt-2 text-sm text-text-muted sm:text-base">Choose an opponent to start.</p>
 
         <div className="mt-8 grid gap-4 sm:grid-cols-2">
           <button
@@ -177,13 +167,13 @@ export default function TicTacToe() {
             className="border border-hairline p-5 text-left hover:border-verified"
           >
             <p className="font-display text-lg font-medium">Local PvP</p>
-            <p className="mt-1 text-sm text-text-muted">Two minds. One board. Settle it face to face.</p>
+            <p className="mt-1 text-sm text-text-muted">Two players, one screen.</p>
           </button>
 
           <div className="border border-hairline p-5">
             <p className="font-display text-lg font-medium">vs AI</p>
             <p className="mt-1 text-sm text-text-muted">
-              {isAuthenticated ? 'A rated match against an opponent that never blinks.' : 'Join the lab for a match that counts.'}
+              {isAuthenticated ? 'Real Elo rating against a fixed-rating opponent.' : 'Sign in for a rated match.'}
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {DIFFICULTIES.map((d) => (
@@ -253,18 +243,20 @@ export default function TicTacToe() {
 
       {finished && (
         <div className="mt-6 sm:mt-8">
-          <ResultSummary
-            title={status}
-            detail="Your moves are saved below so you can replay the moment the game turned."
-            status={displayStatus}
-            proofId={displayProofId}
-            ratingDelta={isRealSession ? serverOutcome?.ratingDelta : undefined}
-          >
-            <div className="border border-sky/40 bg-ink/20 px-3 py-2">
-              <p className="font-mono text-[10px] uppercase text-text-muted">MOVES PLAYED</p>
-              <p className="mt-1 font-display text-xl text-sky">{events.length}</p>
-            </div>
-          </ResultSummary>
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <p className="font-mono text-sm text-text-muted">{status}</p>
+            <VerificationStamp
+              status={displayStatus}
+              proofId={displayStatus === 'verified' ? displayProofId : undefined}
+            />
+          </div>
+
+          {isRealSession && serverOutcome?.ratingDelta != null && (
+            <p className="mt-2 font-mono text-xs text-verified">
+              rating {serverOutcome.ratingDelta >= 0 ? '+' : ''}
+              {serverOutcome.ratingDelta}
+            </p>
+          )}
 
           <div className="mt-6">
             <Board cells={boardAtStep(events, verifyStep)} />

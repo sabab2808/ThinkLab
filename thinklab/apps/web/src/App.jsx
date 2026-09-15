@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react'
+import { Suspense, lazy } from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Nav from './components/Nav.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
@@ -9,18 +9,25 @@ import TicTacToeScan from './pages/games/TicTacToeScan.jsx'
 import MazeLab from './pages/games/MazeLab.jsx'
 import MazeLabScan from './pages/games/MazeLabScan.jsx'
 import RubiksCube from './pages/games/RubiksCube.jsx'
-
-const WordSudoku = lazy(() => import('./pages/games/WordSudoku.jsx'))
 import Leaderboard from './pages/Leaderboard.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 import Login from './pages/Login.jsx'
 import Register from './pages/Register.jsx'
 
+// Lazy-loaded: this page pulls in a ~190k-word dictionary (~2MB) via
+// @thinklab/word-search. Splitting it into its own chunk means nobody
+// pays that download cost unless they actually open the game.
+const WordSearch = lazy(() => import('./pages/games/WordSearch.jsx'))
+
+function PageLoading() {
+  return <p className="mx-auto max-w-6xl px-4 py-16 font-mono text-sm text-text-muted sm:px-6">Loading…</p>
+}
+
 function App() {
   return (
-    <div className="flex min-h-screen flex-col bg-ink text-text">
+    <div className="min-h-screen bg-ink text-text">
       <Nav />
-      <Suspense fallback={<main className="mx-auto min-h-[50vh] max-w-3xl px-4 py-16 font-mono text-sm text-text-muted sm:px-6">Loading challenge…</main>}>
+      <Suspense fallback={<PageLoading />}>
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/games" element={<GameHub />} />
@@ -29,7 +36,7 @@ function App() {
           <Route path="/games/maze" element={<MazeLab />} />
           <Route path="/games/maze/scan" element={<MazeLabScan />} />
           <Route path="/games/rubik" element={<RubiksCube />} />
-          <Route path="/games/word-sudoku" element={<WordSudoku />} />
+          <Route path="/games/word-search" element={<WordSearch />} />
           <Route path="/leaderboard" element={<Leaderboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -43,11 +50,6 @@ function App() {
           />
         </Routes>
       </Suspense>
-      <footer className="mt-auto border-t border-hairline px-4 py-5 sm:px-6">
-        <p className="mx-auto max-w-6xl text-center font-mono text-[11px] text-text-muted">
-          © 2026 CRYPT00 · THINKLAB
-        </p>
-      </footer>
     </div>
   )
 }
