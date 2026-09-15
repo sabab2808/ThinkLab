@@ -209,8 +209,7 @@ export default function WordSearch() {
       setLocalScore((s) => s + points)
       setFlash({ type: 'good', text: `+${points} · ${matchedWord}` })
     } else {
-      setLocalScore((s) => Math.max(0, s - INVALID_PENALTY))
-      setFlash({ type: 'bad', text: `-${INVALID_PENALTY} · "${word}" isn't a word` })
+      setFlash({ type: 'neutral', text: `"${word}" isn't a word` })
     }
   }
 
@@ -225,7 +224,7 @@ export default function WordSearch() {
       <h1 className="mt-2 font-display text-2xl font-semibold sm:text-3xl">Word Search</h1>
       <p className="mt-2 text-sm text-text-muted sm:text-base">
         Select letters in a straight line — any direction — to find real words. Longer words
-        score more; wrong guesses cost points.
+        score more; wrong guesses do not reduce your score.
       </p>
 
       {phase === 'idle' && (

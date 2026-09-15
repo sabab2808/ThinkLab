@@ -40,7 +40,7 @@ describe('scoreForWord', () => {
     }
   })
 
-  it('invalid penalty is a positive number (subtracted by the caller)', () => {
-    expect(INVALID_PENALTY).toBeGreaterThan(0)
+  it('has no negative penalty for invalid guesses', () => {
+    expect(INVALID_PENALTY).toBe(0)
   })
 })

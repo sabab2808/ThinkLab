@@ -36,12 +36,8 @@ export function verifyWordSearch(events, session) {
     if (matchedWord && !foundWords.has(matchedWord)) {
       foundWords.add(matchedWord)
       score += scoreForWord(word)
-    } else if (!matchedWord) {
-      score -= INVALID_PENALTY
     }
-    // Already-found valid words are simply ignored (no double-scoring,
-    // no penalty either — re-tracing a word you already found isn't
-    // "wrong", it's just not worth anything more).
+    // Invalid guesses never subtract points; they are simply ignored.
   }
 
   score = Math.max(0, score)
